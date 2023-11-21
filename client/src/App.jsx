@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { FiSearch } from 'react-icons/fi';
+import './styles.css';
+import { useState } from 'react';
+import api from './services/api';
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [input, setInput] = useState('')
+  const [cep, setCep] = useState({});
+
+  async function handleSearch() {
+
+    // 01310930/json/
+    if (input === '') {
+      alert("Preencha algum Cep!")
+      return;
+    }
+    try {
+      const response = await api.get(`${input}/json`);
+      setCep(response.data)
+      setInput("");
+    } catch {
+      alert("Ops erro ao buscar")
+      setInput("")
+    }
+
+
+
+  }
+
+
+
+
+
+
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="container">
+      <h1 className="title"><span className='col1' >B</span>uscador CEP</h1>
+
+      <div className="containerInput">
+        <input
+          type="text"
+          placeholder="Digite seu cep..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button className="buttonSearch" onClick={handleSearch}>
+          <FiSearch size={25} color='#fff' />
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+
+
+      {Object.keys(cep).length > 0 && (
+        <main className='main'>
+          <h2> CEP: {cep.cep} </h2>
+          <span>{cep.logradouro} </span>
+          <span>Complemento: {cep.complemento}</span>
+          <span> {cep.bairro}  </span>
+          <span> {cep.localidade} - {cep.uf}</span>
+
+
+        </main>
+      )}
+
+
+
+
+
+    </div>
+  );
 }
 
-export default App
+export default App;
