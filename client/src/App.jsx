@@ -35,11 +35,13 @@ function App() {
 
 
   return (
-    <div className="container">
-      <h1 className="title"><span className='col1' >B</span>uscador CEP</h1>
+    
+    <div className="container-1 ">
+      
+      <h1 className="title bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-cyan-300 to-violet-600">Buscador CEP</h1>
 
       <div className="containerInput">
-        <input
+        <input 
           type="text"
           placeholder="Digite seu cep..."
           value={input}
@@ -53,7 +55,7 @@ function App() {
 
 
       {Object.keys(cep).length > 0 && (
-        <main className='main'>
+        <main className='main bg-sky-600/50  '>
           <h2> CEP: {cep.cep} </h2>
           <span>{cep.logradouro} </span>
           <span>Complemento: {cep.complemento}</span>
